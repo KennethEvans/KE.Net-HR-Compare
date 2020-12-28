@@ -20,20 +20,20 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements IConstants {
 
     private String mDeviceId1, mDeviceId2;
-    SharedPreferences sharedPreferences;
+    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPreferences = getPreferences(MODE_PRIVATE);
+        mSharedPreferences = getPreferences(MODE_PRIVATE);
         checkBT();
     }
 
     public void onClickConnect(View view) {
         checkBT();
-        mDeviceId1 = sharedPreferences.getString(PREF_DEVICE_ID_1, "");
-        mDeviceId2 = sharedPreferences.getString(PREF_DEVICE_ID_2, "");
+        mDeviceId1 = mSharedPreferences.getString(PREF_DEVICE_ID_1, "");
+        mDeviceId2 = mSharedPreferences.getString(PREF_DEVICE_ID_2, "");
         Log.d(TAG,
                 "mDeviceId1=" + mDeviceId1 + " mDeviceId2=" + mDeviceId2);
         if (mDeviceId1.equals("")) {
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements IConstants {
 
         final EditText input = viewInflated.findViewById(R.id.input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        mDeviceId1 = sharedPreferences.getString(PREF_DEVICE_ID_1, "");
+        mDeviceId1 = mSharedPreferences.getString(PREF_DEVICE_ID_1, "");
         input.setText(mDeviceId1);
         dialog.setView(viewInflated);
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements IConstants {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mDeviceId1 = input.getText().toString();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
                 editor.putString(PREF_DEVICE_ID_1, mDeviceId1);
                 editor.apply();
             }
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements IConstants {
 
         final EditText input = viewInflated.findViewById(R.id.input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        mDeviceId2 = sharedPreferences.getString(PREF_DEVICE_ID_2, "");
+        mDeviceId2 = mSharedPreferences.getString(PREF_DEVICE_ID_2, "");
         input.setText(mDeviceId2);
         dialog.setView(viewInflated);
 
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements IConstants {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mDeviceId2 = input.getText().toString();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
                 editor.putString(PREF_DEVICE_ID_2, mDeviceId2);
                 editor.apply();
             }
