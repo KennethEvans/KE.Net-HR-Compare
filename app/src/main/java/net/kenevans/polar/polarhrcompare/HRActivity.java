@@ -77,7 +77,7 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                 Log.d(TAG, "Device connected 1 " + s.deviceId);
                 String msg = s.name + "\n" + s.deviceId;
                 mTextViewFW1.append("\n" + msg);
-                mUsePpg1 = s.name.contains("OH1");
+                mUsePpg1 = s.name.contains("OH1") || s.name.contains("Sense");
                 Log.d(TAG, "  usePpg1=" + mUsePpg1);
 
                 Toast.makeText(HRActivity.this,
@@ -225,7 +225,7 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                 Log.d(TAG, "Device connected 2 " + s.deviceId);
                 String msg = s.name + "\n" + s.deviceId;
                 mTextViewFW2.append("\n" + msg);
-                mUsePpg2 = s.name.contains("OH1");
+                mUsePpg2 = s.name.contains("OH1") || s.name.contains("Sense");
                 Log.d(TAG, "  usePpg2=" + mUsePpg2);
 
                 Toast.makeText(HRActivity.this,
