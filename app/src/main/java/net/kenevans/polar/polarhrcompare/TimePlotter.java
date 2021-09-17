@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import polar.com.sdk.api.model.PolarHrData;
-import polar.com.sdk.api.model.PolarOhrPPIData;
+import com.polar.sdk.api.model.PolarHrData;
+import com.polar.sdk.api.model.PolarOhrPPIData;
 
 /**
  * Implements two series for HR and RR using time for the x values.

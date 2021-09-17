@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="net.kenevans.polor.polarhrcompare"
-4    android:versionCode="4"
-5    android:versionName="2.1.0.0" >
+4    android:versionCode="5"
+5    android:versionName="3.0.0.0" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
@@ -16,62 +16,59 @@
 12    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 12-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:6:5-80
 12-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:6:22-78
-13    <uses-permission android:name="android.permission.INTERNET" />
-13-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-2\files-2.1\8ea4b6e3feca6c0195bc06cd39b30286\jetified-polar-ble-sdk\AndroidManifest.xml:12:5-67
-13-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-2\files-2.1\8ea4b6e3feca6c0195bc06cd39b30286\jetified-polar-ble-sdk\AndroidManifest.xml:12:22-64
-14    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-14-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-2\files-2.1\8ea4b6e3feca6c0195bc06cd39b30286\jetified-polar-ble-sdk\AndroidManifest.xml:13:5-74
-14-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-2\files-2.1\8ea4b6e3feca6c0195bc06cd39b30286\jetified-polar-ble-sdk\AndroidManifest.xml:13:22-71
-15    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-15-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-2\files-2.1\8ea4b6e3feca6c0195bc06cd39b30286\jetified-polar-ble-sdk\AndroidManifest.xml:15:5-79
-15-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-2\files-2.1\8ea4b6e3feca6c0195bc06cd39b30286\jetified-polar-ble-sdk\AndroidManifest.xml:15:22-76
-16
-17    <application
-17-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:8:5-30:19
-18        android:allowBackup="true"
-18-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:9:9-35
-19        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-19-->[androidx.core:core:1.3.1] C:\Users\evans\.gradle\caches\transforms-2\files-2.1\fe05db651979b39875ef014855ff51f0\core-1.3.1\AndroidManifest.xml:24:18-86
-20        android:debuggable="true"
-21        android:icon="@mipmap/ic_polar_compare"
-21-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:10:9-48
-22        android:label="@string/app_name"
-22-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:11:9-41
-23        android:roundIcon="@mipmap/ic_polar_compare_round"
-23-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:12:9-59
-24        android:supportsRtl="true"
-24-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:13:9-35
-25        android:testOnly="true"
-26        android:theme="@style/AppTheme" >
-26-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:14:9-40
-27        <activity
-27-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:15:9-24:20
-28            android:name="net.kenevans.polar.polarhrcompare.MainActivity"
-28-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:16:13-74
-29            android:label="@string/app_name"
-29-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:17:13-45
-30            android:screenOrientation="portrait" >
-30-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:18:13-49
-31            <intent-filter>
-31-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:19:13-23:29
-32                <action android:name="android.intent.action.MAIN" />
-32-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:20:17-68
-32-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:20:25-66
-33
-34                <category android:name="android.intent.category.LAUNCHER" />
-34-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:22:17-76
-34-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:22:27-74
-35            </intent-filter>
-36        </activity>
-37        <activity
-37-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:25:9-29:20
-38            android:name="net.kenevans.polar.polarhrcompare.HRActivity"
-38-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:26:13-72
-39            android:label="@string/hr_name"
-39-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:27:13-44
-40            android:screenOrientation="portrait" >
-40-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:28:13-49
-41        </activity>
-42    </application>
-43
-44</manifest>
+13    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+13-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:10:5-74
+13-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:10:22-71
+14    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+14-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:11:5-79
+14-->[polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:11:22-76
+15
+16    <application
+16-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:8:5-30:19
+17        android:allowBackup="true"
+17-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:9:9-35
+18        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+18-->[androidx.core:core:1.6.0] C:\Users\evans\.gradle\caches\transforms-3\77368fcbe74f28065fdfe7b340d83da3\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
+19        android:debuggable="true"
+20        android:icon="@mipmap/ic_polar_compare"
+20-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:10:9-48
+21        android:label="@string/app_name"
+21-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:11:9-41
+22        android:roundIcon="@mipmap/ic_polar_compare_round"
+22-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:12:9-59
+23        android:supportsRtl="true"
+23-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:13:9-35
+24        android:testOnly="true"
+25        android:theme="@style/AppTheme" >
+25-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:14:9-40
+26        <activity
+26-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:15:9-24:20
+27            android:name="net.kenevans.polar.polarhrcompare.MainActivity"
+27-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:16:13-74
+28            android:label="@string/app_name"
+28-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:17:13-45
+29            android:screenOrientation="portrait" >
+29-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:18:13-49
+30            <intent-filter>
+30-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:19:13-23:29
+31                <action android:name="android.intent.action.MAIN" />
+31-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:20:17-68
+31-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:20:25-66
+32
+33                <category android:name="android.intent.category.LAUNCHER" />
+33-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:22:17-76
+33-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:22:27-74
+34            </intent-filter>
+35        </activity>
+36        <activity
+36-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:25:9-29:20
+37            android:name="net.kenevans.polar.polarhrcompare.HRActivity"
+37-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:26:13-72
+38            android:label="@string/hr_name"
+38-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:27:13-44
+39            android:screenOrientation="portrait" >
+39-->C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:28:13-49
+40        </activity>
+41    </application>
+42
+43</manifest>

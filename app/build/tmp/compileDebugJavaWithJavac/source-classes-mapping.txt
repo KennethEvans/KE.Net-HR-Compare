@@ -9,20 +9,25 @@ net/kenevans/polar/polarhrcompare/HRActivity.java
  net.kenevans.polar.polarhrcompare.HRActivity$2$2
  net.kenevans.polar.polarhrcompare.HRActivity$2$3
  net.kenevans.polar.polarhrcompare.HRActivity$3
+ net.kenevans.polar.polarhrcompare.HRActivity$4
 net/kenevans/polar/polarhrcompare/Plotter.java
  net.kenevans.polar.polarhrcompare.Plotter
  net.kenevans.polar.polarhrcompare.Plotter$FadeFormatter
 net/kenevans/polar/polarhrcompare/TimePlotter.java
  net.kenevans.polar.polarhrcompare.TimePlotter
+net/kenevans/polar/polarhrcompare/BuildConfig.java
+ net.kenevans.polar.polarhrcompare.BuildConfig
+net/kenevans/polar/polarhrcompare/PlotterListener.java
+ net.kenevans.polar.polarhrcompare.PlotterListener
+net/kenevans/polar/polarhrcompare/IConstants.java
+ net.kenevans.polar.polarhrcompare.IConstants
+net/kenevans/polar/polarhrcompare/Utils.java
+ net.kenevans.polar.polarhrcompare.Utils
+ net.kenevans.polar.polarhrcompare.Utils$1
 net/kenevans/polar/polarhrcompare/MainActivity.java
  net.kenevans.polar.polarhrcompare.MainActivity
  net.kenevans.polar.polarhrcompare.MainActivity$1
  net.kenevans.polar.polarhrcompare.MainActivity$2
  net.kenevans.polar.polarhrcompare.MainActivity$3
  net.kenevans.polar.polarhrcompare.MainActivity$4
-net/kenevans/polar/polarhrcompare/BuildConfig.java
- net.kenevans.polar.polarhrcompare.BuildConfig
-net/kenevans/polar/polarhrcompare/IConstants.java
- net.kenevans.polar.polarhrcompare.IConstants
-net/kenevans/polar/polarhrcompare/PlotterListener.java
- net.kenevans.polar.polarhrcompare.PlotterListener
+ net.kenevans.polar.polarhrcompare.MainActivity$5
