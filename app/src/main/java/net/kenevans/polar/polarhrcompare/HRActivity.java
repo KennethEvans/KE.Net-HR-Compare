@@ -91,10 +91,7 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                 resetInfo1();
                 mUsePpg1 = s.name.contains("OH1") || s.name.contains("Sense");
                 Log.d(TAG, "  usePpg1=" + mUsePpg1);
-
-                Toast.makeText(HRActivity.this,
-                        R.string.connected + " " + s.deviceId,
-                        Toast.LENGTH_SHORT).show();
+                showToast( R.string.connected + " " + s.deviceId);
             }
 
             @Override
@@ -138,10 +135,12 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                                             new Consumer<Throwable>() {
                                                 @Override
                                                 public void accept(Throwable throwable) {
-                                                    Log.e(TAG,
-                                                            "PPI failed for " +
-                                                                    "device " +
-                                                                    "1: " + throwable.getLocalizedMessage());
+                                                    String msg = "PPI failed for device 1: " +
+                                                           throwable.getLocalizedMessage();
+                                                    Log.e(TAG, msg);
+                                                    showToast(msg);
+                                                    Utils.excMsg(HRActivity.this,
+                                                            "PPI failed for device 1", throwable);
                                                 }
                                             },
                                             new Action() {
@@ -185,7 +184,6 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
             @Override
             public void batteryLevelReceived(@NonNull String s, int i) {
                 Log.d(TAG, "Battery level 1 " + s + " " + i);
-                //                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 mBattery1 = "Battery level: " + i;
                 resetInfo1();
             }
@@ -194,8 +192,8 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
             public void hrNotificationReceived(@NonNull String s,
                                                @NonNull PolarHrData polarHrData) {
                 Log.d(TAG, "HR1 " + polarHrData.hr);
-                // TODO
-                if (polarHrData.hr == 0) return;
+//                // TODO
+//                if (polarHrData.hr == 0) return;
                 List<Integer> rrsMs = polarHrData.rrsMs;
                 StringBuilder msg = new StringBuilder();
                 for (int i : rrsMs) {
@@ -250,9 +248,7 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                 mUsePpg2 = s.name.contains("OH1") || s.name.contains("Sense");
                 Log.d(TAG, "  usePpg2=" + mUsePpg2);
 
-                Toast.makeText(HRActivity.this,
-                        R.string.connected + " " + s.deviceId,
-                        Toast.LENGTH_SHORT).show();
+                showToast(R.string.connected + " " + s.deviceId);
             }
 
             @Override
@@ -296,10 +292,12 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                                             new Consumer<Throwable>() {
                                                 @Override
                                                 public void accept(Throwable throwable) {
-                                                    Log.e(TAG,
-                                                            "PPI failed for " +
-                                                                    "device " +
-                                                                    "2: " + throwable.getLocalizedMessage());
+                                                    String msg = "PPI failed for device 2: " +
+                                                            throwable.getLocalizedMessage();
+                                                    Log.e(TAG, msg);
+                                                    showToast(msg);
+                                                    Utils.excMsg(HRActivity.this,
+                                                            "PPI failed for device 2", throwable);
                                                 }
                                             },
                                             new Action() {
@@ -343,7 +341,6 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
             @Override
             public void batteryLevelReceived(@NonNull String s, int i) {
                 Log.d(TAG, "Battery level 2 " + s + " " + i);
-                //                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 mBattery2 = "Battery level: " + i;
                 resetInfo2();
             }
@@ -353,8 +350,8 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                                                @NonNull PolarHrData polarHrData) {
                 Log.d(TAG, "HR2 " + polarHrData.hr);
                 List<Integer> rrsMs = polarHrData.rrsMs;
-                // TODO
-                if (polarHrData.hr == 0) return;
+//                // TODO
+//                if (polarHrData.hr == 0) return;
                 StringBuilder msg = new StringBuilder();
                 for (int i : rrsMs) {
                     msg.append(i).append(",");
@@ -420,12 +417,29 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mApi1.backgroundEntered();
+        mApi2.backgroundEntered();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mApi1.foregroundEntered();
+        mApi2.foregroundEntered();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mApi1.shutDown();
         mApi2.shutDown();
     }
 
+    /**
+     * Redraws the plot.
+     */
     public void update() {
         runOnUiThread(new Runnable() {
             @Override
@@ -434,6 +448,15 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
             }
         });
     }
+
+    /**
+     * Utility rputine to show Toast. Uses Toast.LENGTH_LONG.
+     * @param msg The message.
+     */
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
 
     public void resetInfo1() {
         String msg = mName1 + "\n" + mFw1 + "\n" + mBattery1;
