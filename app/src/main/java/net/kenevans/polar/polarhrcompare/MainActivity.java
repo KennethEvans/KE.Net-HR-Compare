@@ -1,20 +1,12 @@
 package net.kenevans.polar.polarhrcompare;
 
 import android.Manifest;
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,20 +15,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity implements IConstants {
 
     private String mDeviceId1, mDeviceId2;
     SharedPreferences mSharedPreferences;
-    ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-//                    if (result.getResultCode() == 2) {
-//                        // Do nothing
-//                    }
-                }
-            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements IConstants {
         if (mBluetoothAdapter != null && !mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent =
                     new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            mActivityResultLauncher.launch(enableBtIntent);
+            startActivityForResult(enableBtIntent, 2);
         }
 
         //requestPermissions() method needs to be called when the build SDK
