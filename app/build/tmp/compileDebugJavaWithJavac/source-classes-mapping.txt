@@ -1,13 +1,7 @@
 net/kenevans/polar/polarhrcompare/HRActivity.java
  net.kenevans.polar.polarhrcompare.HRActivity
  net.kenevans.polar.polarhrcompare.HRActivity$1
- net.kenevans.polar.polarhrcompare.HRActivity$1$1
- net.kenevans.polar.polarhrcompare.HRActivity$1$2
- net.kenevans.polar.polarhrcompare.HRActivity$1$3
  net.kenevans.polar.polarhrcompare.HRActivity$2
- net.kenevans.polar.polarhrcompare.HRActivity$2$1
- net.kenevans.polar.polarhrcompare.HRActivity$2$2
- net.kenevans.polar.polarhrcompare.HRActivity$2$3
  net.kenevans.polar.polarhrcompare.HRActivity$3
  net.kenevans.polar.polarhrcompare.HRActivity$4
 net/kenevans/polar/polarhrcompare/Plotter.java
@@ -20,9 +14,7 @@ net/kenevans/polar/polarhrcompare/BuildConfig.java
 net/kenevans/polar/polarhrcompare/MainActivity.java
  net.kenevans.polar.polarhrcompare.MainActivity
  net.kenevans.polar.polarhrcompare.MainActivity$1
- net.kenevans.polar.polarhrcompare.MainActivity$2
- net.kenevans.polar.polarhrcompare.MainActivity$3
- net.kenevans.polar.polarhrcompare.MainActivity$4
+ net.kenevans.polar.polarhrcompare.MainActivity$DeviceInfo
 net/kenevans/polar/polarhrcompare/IConstants.java
  net.kenevans.polar.polarhrcompare.IConstants
 net/kenevans/polar/polarhrcompare/Utils.java

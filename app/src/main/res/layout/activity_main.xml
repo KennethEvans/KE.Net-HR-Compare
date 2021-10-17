@@ -16,7 +16,6 @@
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="5dp"
         android:background="@color/colorPrimary"
-        android:onClick="onClickChangeID1"
         android:padding="8dp"
         android:text="@string/set_id1_button"
         android:textColor="@color/colorAccent"
@@ -24,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0"
         />
 
     <Button
@@ -34,22 +33,38 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="64dp"
         android:background="@color/colorPrimary"
-        android:onClick="onClickChangeID2"
         android:padding="8dp"
         android:text="@string/set_id2_button"
         android:textColor="@color/colorAccent"
         app:layout_constraintTop_toBottomOf="@id/buttonSetID1"
-        app:layout_constraintBottom_toTopOf="@+id/buttonConnect2"
+        app:layout_constraintBottom_toTopOf="@+id/devices"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        />
+
+    <TextView
+        android:id="@+id/devices"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="150dp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/buttonSetID2"
+        app:layout_constraintBottom_toTopOf="@+id/buttonConnect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0"
         />
 
     <Button
-        android:id="@+id/buttonConnect2"
+        android:id="@+id/buttonConnect"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -58,15 +73,14 @@
         android:layout_marginStart="64dp"
         android:layout_marginEnd="64dp"
         android:background="@color/colorPrimary"
-        android:onClick="onClickConnect"
         android:padding="8dp"
         android:text="@string/connect"
         android:textColor="@color/colorAccent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSetID2"
+        app:layout_constraintTop_toBottomOf="@+id/devices"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

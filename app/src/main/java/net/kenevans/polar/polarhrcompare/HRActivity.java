@@ -1,5 +1,6 @@
 package net.kenevans.polar.polarhrcompare;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,8 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.StepMode;
 import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.polar.sdk.api.PolarBleApi;
 import com.polar.sdk.api.PolarBleApiCallback;
 import com.polar.sdk.api.PolarBleApiDefaultImpl;
@@ -18,8 +21,11 @@ import com.polar.sdk.api.model.PolarDeviceInfo;
 import com.polar.sdk.api.model.PolarHrData;
 import com.polar.sdk.api.model.PolarOhrPPIData;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -50,14 +56,18 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
     private String mName2 = "";
     private String mFw2 = "";
     private String mBattery2 = "";
+    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hr);
+        mSharedPreferences = getSharedPreferences("MainActivity", MODE_PRIVATE);
         mDeviceId1 = getIntent().getStringExtra("id1");
         mDeviceId2 = getIntent().getStringExtra("id2");
+        Log.d(TAG, "HRActivity.onCreate(): "
+                + "mDeviceId1=" + mDeviceId1 + " mDeviceId2=" + mDeviceId2);
         mTextViewHR1 = findViewById(R.id.hrinfo1);
         mTextViewRR1 = findViewById(R.id.rrinfo1);
         mTextViewInfo1 = findViewById(R.id.info1);
@@ -88,10 +98,14 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
             public void deviceConnected(@NonNull PolarDeviceInfo s) {
                 Log.d(TAG, "Device connected 1 " + s.deviceId);
                 mName1 = s.name + "\n" + s.deviceId;
+                // Set the MRU preference here after we know the name
+                setDeviceMruPref(new MainActivity.DeviceInfo(s.name,
+                        s.deviceId), 2);
+                // Reset the plot
                 resetInfo1();
                 mUsePpg1 = s.name.contains("OH1") || s.name.contains("Sense");
                 Log.d(TAG, "  usePpg1=" + mUsePpg1);
-                showToast( R.string.connected + " " + s.deviceId);
+                showToast(getString(R.string.connected) + " " + s.name);
             }
 
             @Override
@@ -115,41 +129,34 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                             if (!mUsePpg1) return;
                             mPpiDisposable1 =
                                     mApi1.startOhrPPIStreaming(mDeviceId1).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                                            new Consumer<PolarOhrPPIData>() {
-                                                @Override
-                                                public void accept(PolarOhrPPIData ppiData) {
-                                                    mPlotter1.addValues(mPlot
-                                                            , ppiData);
-                                                    for (PolarOhrPPIData.PolarOhrPPISample sample : ppiData.samples) {
-                                                        Log.d(TAG,
-                                                                "1 hr: " + sample.hr +
-                                                                        " ppi" +
-                                                                        ": " + sample.ppi
-                                                                        + " blocker: "
-                                                                        + sample.blockerBit
-                                                                        + " errorEstimate: "
-                                                                        + sample.errorEstimate);
-                                                    }
+                                            ppiData -> {
+                                                mPlotter1.addValues(mPlot
+                                                        , ppiData);
+                                                for (PolarOhrPPIData.PolarOhrPPISample sample : ppiData.samples) {
+                                                    Log.d(TAG,
+                                                            "1 hr: " + sample.hr +
+                                                                    " ppi" +
+                                                                    ": " + sample.ppi
+                                                                    + " blocker: "
+                                                                    + sample.blockerBit
+                                                                    + " errorEstimate: "
+                                                                    + sample.errorEstimate);
                                                 }
                                             },
-                                            new Consumer<Throwable>() {
-                                                @Override
-                                                public void accept(Throwable throwable) {
-                                                    String msg = "PPI failed for device 1: " +
-                                                           throwable.getLocalizedMessage();
-                                                    Log.e(TAG, msg);
-                                                    showToast(msg);
-                                                    Utils.excMsg(HRActivity.this,
-                                                            "PPI failed for device 1", throwable);
-                                                }
+                                            throwable -> {
+                                                String msg = "PPI failed " +
+                                                        "for device 1: " +
+                                                        throwable.getLocalizedMessage();
+                                                Log.e(TAG, msg);
+                                                showToast(msg);
+                                                Utils.excMsg(HRActivity.this,
+                                                        "PPI failed for " +
+                                                                "device " +
+                                                                "1",
+                                                        throwable);
                                             },
-                                            new Action() {
-                                                @Override
-                                                public void run() {
-                                                    Log.d(TAG, "PPI complete " +
-                                                            "for device 1");
-                                                }
-                                            }
+                                            () -> Log.d(TAG, "PPI complete " +
+                                                    "for device 1")
                                     );
                             break;
                         case ECG:
@@ -191,7 +198,7 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
             @Override
             public void hrNotificationReceived(@NonNull String s,
                                                @NonNull PolarHrData polarHrData) {
-                Log.d(TAG, "HR1 " + polarHrData.hr);
+//                Log.d(TAG, "HR1 " + polarHrData.hr);
 //                // TODO
 //                if (polarHrData.hr == 0) return;
                 List<Integer> rrsMs = polarHrData.rrsMs;
@@ -244,11 +251,14 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
             public void deviceConnected(@NonNull PolarDeviceInfo s) {
                 Log.d(TAG, "Device connected 2 " + s.deviceId);
                 mName2 = s.name + "\n" + s.deviceId;
+                // Set the MRU preference here after we know the name
+                setDeviceMruPref(new MainActivity.DeviceInfo(s.name,
+                        s.deviceId), 2);
                 resetInfo2();
                 mUsePpg2 = s.name.contains("OH1") || s.name.contains("Sense");
                 Log.d(TAG, "  usePpg2=" + mUsePpg2);
 
-                showToast(R.string.connected + " " + s.deviceId);
+                showToast(getString(R.string.connected) + " " + s.name);
             }
 
             @Override
@@ -272,41 +282,34 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                             if (!mUsePpg2) return;
                             mPpiDisposable2 =
                                     mApi2.startOhrPPIStreaming(mDeviceId2).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                                            new Consumer<PolarOhrPPIData>() {
-                                                @Override
-                                                public void accept(PolarOhrPPIData ppiData) {
-                                                    mPlotter2.addValues(mPlot
-                                                            , ppiData);
-                                                    for (PolarOhrPPIData.PolarOhrPPISample sample : ppiData.samples) {
-                                                        Log.d(TAG,
-                                                                "2 hr: " + sample.hr +
-                                                                        " ppi" +
-                                                                        ": " + sample.ppi
-                                                                        + " blocker: "
-                                                                        + sample.blockerBit
-                                                                        + " errorEstimate: "
-                                                                        + sample.errorEstimate);
-                                                    }
+                                            ppiData -> {
+                                                mPlotter2.addValues(mPlot
+                                                        , ppiData);
+                                                for (PolarOhrPPIData.PolarOhrPPISample sample : ppiData.samples) {
+                                                    Log.d(TAG,
+                                                            "2 hr: " + sample.hr +
+                                                                    " ppi" +
+                                                                    ": " + sample.ppi
+                                                                    + " blocker: "
+                                                                    + sample.blockerBit
+                                                                    + " errorEstimate: "
+                                                                    + sample.errorEstimate);
                                                 }
                                             },
-                                            new Consumer<Throwable>() {
-                                                @Override
-                                                public void accept(Throwable throwable) {
-                                                    String msg = "PPI failed for device 2: " +
-                                                            throwable.getLocalizedMessage();
-                                                    Log.e(TAG, msg);
-                                                    showToast(msg);
-                                                    Utils.excMsg(HRActivity.this,
-                                                            "PPI failed for device 2", throwable);
-                                                }
+                                            throwable -> {
+                                                String msg = "PPI failed " +
+                                                        "for device 2: " +
+                                                        throwable.getLocalizedMessage();
+                                                Log.e(TAG, msg);
+                                                showToast(msg);
+                                                Utils.excMsg(HRActivity.this,
+                                                        "PPI failed for " +
+                                                                "device " +
+                                                                "2",
+                                                        throwable);
                                             },
-                                            new Action() {
-                                                @Override
-                                                public void run() {
-                                                    Log.d(TAG, "PPI complete " +
-                                                            "for device 2");
-                                                }
-                                            }
+                                            () -> Log.d(TAG, "PPI complete " +
+                                                    "for device 2")
                                     );
                             break;
                         case ECG:
@@ -348,10 +351,10 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
             @Override
             public void hrNotificationReceived(@NonNull String s,
                                                @NonNull PolarHrData polarHrData) {
-                Log.d(TAG, "HR2 " + polarHrData.hr);
-                List<Integer> rrsMs = polarHrData.rrsMs;
+//                Log.d(TAG, "HR2 " + polarHrData.hr);
 //                // TODO
 //                if (polarHrData.hr == 0) return;
+                List<Integer> rrsMs = polarHrData.rrsMs;
                 StringBuilder msg = new StringBuilder();
                 for (int i : rrsMs) {
                     msg.append(i).append(",");
@@ -417,46 +420,57 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
+        Log.v(TAG, this.getClass().getSimpleName() + " onPause");
         super.onPause();
-        mApi1.backgroundEntered();
-        mApi2.backgroundEntered();
+        if (mApi1 != null) mApi1.backgroundEntered();
+        if (mApi2 != null) mApi2.backgroundEntered();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mApi1.foregroundEntered();
-        mApi2.foregroundEntered();
+        if (mApi1 != null) mApi1.foregroundEntered();
+        if (mApi2 != null) mApi2.foregroundEntered();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mApi1.shutDown();
-        mApi2.shutDown();
+        if (mApi1 != null) {
+//            try {
+//                mApi1.disconnectFromDevice(mDeviceId1);
+//            } catch (Exception ex) {
+//                // Do nothing
+//            }
+            mApi1.shutDown();
+        }
+        if (mApi2 != null) {
+//            try {
+//                mApi2.disconnectFromDevice(mDeviceId2);
+//            } catch (Exception ex) {
+//                // Do nothing
+//            }
+            mApi2.shutDown();
+        }
     }
 
     /**
      * Redraws the plot.
      */
     public void update() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mPlot.redraw();
-            }
-        });
+        runOnUiThread(() -> mPlot.redraw());
     }
 
     /**
-     * Utility rputine to show Toast. Uses Toast.LENGTH_LONG.
+     * Utility routine to show Toast. Uses Toast.LENGTH_LONG.
+     *
      * @param msg The message.
      */
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        Log.d(TAG, "HRActivity: Toast: " + msg);
     }
-
 
     public void resetInfo1() {
         String msg = mName1 + "\n" + mFw1 + "\n" + mBattery1;
@@ -466,5 +480,45 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
     public void resetInfo2() {
         String msg = mName2 + "\n" + mFw2 + "\n" + mBattery2;
         mTextViewInfo2.setText(msg);
+    }
+
+    public void setDeviceMruPref(MainActivity.DeviceInfo deviceInfo,
+                                 int which) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<LinkedList<MainActivity.DeviceInfo>>() {
+        }.getType();
+        String json = mSharedPreferences.getString(PREF_MRU_DEVICE_IDS, null);
+        List<MainActivity.DeviceInfo> mruDevices = gson.fromJson(json, type);
+        if (mruDevices == null) {
+            mruDevices = new ArrayList<>();
+        }
+
+        Log.d(TAG, "HeartActivity: setDeviceMruPref: which=" + which
+                + " name=" + deviceInfo.name + " id=" + deviceInfo.id);
+        SharedPreferences.Editor editor =
+                mSharedPreferences.edit();
+        // Remove any found so the new one will be added at the beginning
+        List<MainActivity.DeviceInfo> removeList = new ArrayList<>();
+        for (MainActivity.DeviceInfo deviceInfo1 : mruDevices) {
+            if (deviceInfo.name.equals(deviceInfo1.name) &&
+                    deviceInfo.id.equals(deviceInfo1.id)) {
+                removeList.add(deviceInfo1);
+            }
+        }
+        for (MainActivity.DeviceInfo deviceInfo1 : removeList) {
+            mruDevices.remove(deviceInfo1);
+        }
+        // Remove at end if size exceed max
+        if (mruDevices.size() != 0 && mruDevices.size() == MainActivity.MAX_DEVICES) {
+            mruDevices.remove(mruDevices.size() - 1);
+        }
+        // Add at the beginning
+        mruDevices.add(0, deviceInfo);
+        gson = new Gson();
+        json = gson.toJson(mruDevices);
+        editor.putString(PREF_MRU_DEVICE_IDS, json);
+        editor.apply();
+        Log.d(TAG, "HeartActivitysetDeviceMruPref done: mDeviceId1=: "
+                + mDeviceId1 + " mDeviceId2=" + mDeviceId2);
     }
 }
