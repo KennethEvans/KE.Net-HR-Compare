@@ -105,7 +105,7 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                 resetInfo1();
                 mUsePpg1 = s.name.contains("OH1") || s.name.contains("Sense");
                 Log.d(TAG, "  usePpg1=" + mUsePpg1);
-                showToast(getString(R.string.connected) + " " + s.name);
+                showToast(getString(R.string.connected_string, s.name));
             }
 
             @Override
@@ -258,7 +258,7 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
                 mUsePpg2 = s.name.contains("OH1") || s.name.contains("Sense");
                 Log.d(TAG, "  usePpg2=" + mUsePpg2);
 
-                showToast(getString(R.string.connected) + " " + s.name);
+                showToast(getString(R.string.connected_string, s.name));
             }
 
             @Override
