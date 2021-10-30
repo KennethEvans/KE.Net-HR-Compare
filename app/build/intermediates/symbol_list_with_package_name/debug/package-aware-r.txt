@@ -1474,6 +1474,7 @@ string app_name
 string cancel
 string connect
 string connected
+string connected_string
 string connecting
 string device_id
 string devices_string

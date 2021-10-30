@@ -122,10 +122,10 @@ public class TimePlotter implements IConstants {
             mTotalRrTime = 0;
         }
         mTotalRrTime += totalRR;
-        Log.d(TAG, "lastRrTime=" + mLastRrTime
-                + " totalRR=" + totalRR
-                + " elapsed=" + (mLastRrTime - mStartRrTime)
-                + " totalRrTime=" + mTotalRrTime);
+//        Log.d(TAG, "lastRrTime=" + mLastRrTime
+//                + " totalRR=" + totalRR
+//                + " elapsed=" + (mLastRrTime - mStartRrTime)
+//                + " totalRrTime=" + mTotalRrTime);
 
         double rr;
         double t = mLastRrTime;
@@ -172,7 +172,7 @@ public class TimePlotter implements IConstants {
      * @param ppiData The PPI data that came in.
      */
     public void addValues(XYPlot plot, PolarOhrPPIData ppiData) {
-        Log.d(TAG, "addValues PPG: nSamples=" + ppiData.samples.size());
+//        Log.d(TAG, "addValues PPG: nSamples=" + ppiData.samples.size());
         long now = new Date().getTime();
         // Make the plot move forward
         long start = now - mDuration;
@@ -215,10 +215,10 @@ public class TimePlotter implements IConstants {
             mTotalRrTime = 0;
         }
         mTotalRrTime += totalRR;
-        Log.d(TAG, "lastRrTime=" + mLastRrTime
-                + " totalRR=" + totalRR
-                + " elapsed=" + (mLastRrTime - mStartRrTime)
-                + " totalRrTime=" + mTotalRrTime);
+//        Log.d(TAG, "lastRrTime=" + mLastRrTime
+//                + " totalRR=" + totalRR
+//                + " elapsed=" + (mLastRrTime - mStartRrTime)
+//                + " totalRrTime=" + mTotalRrTime);
 
         double rr;
         double t = mLastRrTime;
