@@ -424,6 +424,12 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
         Log.v(TAG,
                 this.getClass().getSimpleName() + " onDestroy: mAPi=" + mApi);
         super.onDestroy();
+        if(mPpiDisposable1 != null && !mPpiDisposable1.isDisposed()) {
+            mPpiDisposable1.dispose();
+        }
+        if(mPpiDisposable2 != null && !mPpiDisposable2.isDisposed()) {
+            mPpiDisposable2.dispose();
+        }
         if (mApi != null) {
             try {
                 if (mDeviceId1 != null) mApi.disconnectFromDevice(mDeviceId1);

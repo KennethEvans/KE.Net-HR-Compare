@@ -4,7 +4,7 @@ ADDED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManife
 INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:2:1-32:12
 INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:2:1-32:12
 INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:2:1-32:12
-MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:2:1-13:12
+MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:2:1-13:12
 MERGED from [com.androidplot:androidplot-core:1.5.7] C:\Users\evans\.gradle\caches\transforms-3\492381e11bb0010adfa5ef4048893217\transformed\jetified-androidplot-core-1.5.7\AndroidManifest.xml:21:1-30:12
 MERGED from [io.reactivex.rxjava3:rxandroid:3.0.0] C:\Users\evans\.gradle\caches\transforms-3\6451d1adff67209a49eb6f6b86ee6a18\transformed\jetified-rxandroid-3.0.0\AndroidManifest.xml:15:1-20:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.1] C:\Users\evans\.gradle\caches\transforms-3\81808270a5cc0559f2b9db87cb315b87\transformed\constraintlayout-2.1.1\AndroidManifest.xml:2:1-11:12
@@ -52,8 +52,8 @@ INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidMan
 		ADDED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.BLUETOOTH
 ADDED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:5:5-67
-MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:9:5-68
-MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:9:5-68
+MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:9:5-68
+MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:9:5-68
 	android:name
 		ADDED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml:5:22-65
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
@@ -112,8 +112,8 @@ uses-sdk
 INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml
 INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml
-MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:5:5-7:41
-MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:5:5-7:41
+MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:5:5-7:41
+MERGED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:5:5-7:41
 MERGED from [com.androidplot:androidplot-core:1.5.7] C:\Users\evans\.gradle\caches\transforms-3\492381e11bb0010adfa5ef4048893217\transformed\jetified-androidplot-core-1.5.7\AndroidManifest.xml:26:5-28:41
 MERGED from [com.androidplot:androidplot-core:1.5.7] C:\Users\evans\.gradle\caches\transforms-3\492381e11bb0010adfa5ef4048893217\transformed\jetified-androidplot-core-1.5.7\AndroidManifest.xml:26:5-28:41
 MERGED from [io.reactivex.rxjava3:rxandroid:3.0.0] C:\Users\evans\.gradle\caches\transforms-3\6451d1adff67209a49eb6f6b86ee6a18\transformed\jetified-rxandroid-3.0.0\AndroidManifest.xml:18:5-43
@@ -181,10 +181,10 @@ INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidMan
 		ADDED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml
 		INJECTED from C:\AndroidStudioProjects\KE.Net HR Compare\app\src\main\AndroidManifest.xml
 uses-permission#android.permission.BLUETOOTH_ADMIN
-ADDED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:10:5-74
+ADDED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:10:5-74
 	android:name
-		ADDED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:10:22-71
+		ADDED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:10:22-71
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:11:5-79
+ADDED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:11:5-79
 	android:name
-		ADDED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\abd75c9aff9f4517bf49f84eaa146160\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:11:22-76
+		ADDED from [polar-ble-sdk.aar] C:\Users\evans\.gradle\caches\transforms-3\e7a0dbff45a0dc54870c3f2c97916c57\transformed\jetified-polar-ble-sdk\AndroidManifest.xml:11:22-76
