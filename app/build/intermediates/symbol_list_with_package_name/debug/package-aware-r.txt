@@ -1485,6 +1485,7 @@ string hr_name
 string hr_range_title
 string hr_title
 string info
+string info_string
 string ok
 string search_menu_title
 string set_id1_button

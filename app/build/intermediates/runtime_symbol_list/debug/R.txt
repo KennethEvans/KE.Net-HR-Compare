@@ -1484,6 +1484,7 @@ int string hr_name 0x7f0d0026
 int string hr_range_title 0x7f0d0027
 int string hr_title 0x7f0d0028
 int string info 0x7f0d0029
+int string info_string 0x7f0d0030
 int string ok 0x7f0d002a
 int string search_menu_title 0x7f0d002b
 int string set_id1_button 0x7f0d002c
