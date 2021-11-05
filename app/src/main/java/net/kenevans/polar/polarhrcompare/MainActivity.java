@@ -2,6 +2,8 @@ package net.kenevans.polar.polarhrcompare;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -24,6 +26,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,6 +41,18 @@ public class MainActivity extends AppCompatActivity implements IConstants {
     Button mButtonId1;
     Button mButtonId2;
     Button mButtonConnect;
+
+    private ActivityResultLauncher<Intent> enableBluetoothLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        Log.d(TAG, "enableBluetoothLauncher: result" +
+                                ".getResultCode()=" + result.getResultCode());
+                        if (result.getResultCode() != RESULT_OK) {
+                            Utils.warnMsg(this, "This app will not work with " +
+                                    "Bluetooth disabled");
+                        }
+                    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -287,18 +303,24 @@ public class MainActivity extends AppCompatActivity implements IConstants {
     }
 
     public void checkBT() {
-        BluetoothAdapter mBluetoothAdapter =
-                BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter != null && !mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent =
-                    new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, 2);
+        Log.d(TAG, "checkBT");
+        BluetoothManager bluetoothManager =
+                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        if (bluetoothManager != null) {
+            BluetoothAdapter mBluetoothAdapter = bluetoothManager.getAdapter();
+            if (mBluetoothAdapter != null && !mBluetoothAdapter.isEnabled()) {
+                Intent enableBtIntent =
+                        new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                enableBluetoothLauncher.launch(enableBtIntent);
+            }
         }
 
         //requestPermissions() method needs to be called when the build SDK
         // version is 23 or above
         if (Build.VERSION.SDK_INT >= 23) {
-            this.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            this.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQ_ACCESS_LOCATION);
         }
     }
 

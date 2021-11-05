@@ -4,7 +4,17 @@
             "outputFile": "C:\\AndroidStudioProjects\\KE.Net HR Compare\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\evans\\.gradle\\caches\\transforms-3\\4ecd700c773cf5624732e3577602f1ea\\transformed\\appcompat-1.3.1\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\evans\\.gradle\\caches\\transforms-3\\21249a56641fb0309777a5ae16ce99ff\\transformed\\core-1.7.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\evans\\.gradle\\caches\\transforms-3\\43711b72eaf2f529e5b9b1576380fb27\\transformed\\appcompat-1.3.1\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -20,16 +30,6 @@
                         "endLines": "6",
                         "endColumns": "12",
                         "endOffsets": "289"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\evans\\.gradle\\caches\\transforms-3\\77368fcbe74f28065fdfe7b340d83da3\\transformed\\core-1.6.0\\res\\values-v16\\values-v16.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "65",
-                        "endOffsets": "116"
                     }
                 }
             ]
