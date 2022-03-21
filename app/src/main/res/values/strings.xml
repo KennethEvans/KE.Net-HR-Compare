@@ -12,6 +12,8 @@
     <string name="set_id2_button">Change Device ID 2</string>
     <string name="connected_string">Connected to %1$s</string>
     <string name="devices_string">1 %1$s\n2 %2$s</string>
+    <string name="ble_not_supported">Bluetooth LE is not supported.</string>
+    <string name="permission_not_granted">All of the necessary permissions for this application to work properly have not been granted. You can change the permissions in Settings | apps.</string>
 
     <!-- Utils -->
     <string name="ok">OK</string>

@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,8 +43,10 @@ public class MainActivity extends AppCompatActivity implements IConstants {
     Button mButtonId1;
     Button mButtonId2;
     Button mButtonConnect;
+    private boolean mBleSupported;
+    private boolean mAllPermissionsAsked;
 
-    private ActivityResultLauncher<Intent> enableBluetoothLauncher =
+    private final ActivityResultLauncher<Intent> enableBluetoothLauncher =
             registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
                     result -> {
@@ -77,7 +81,21 @@ public class MainActivity extends AppCompatActivity implements IConstants {
 //        editor.putString(PREF_MRU_DEVICE_IDS, json);
 //        editor.apply();;
 
-        checkBT();
+        // Use this check to determine whether BLE is supported on the device.
+        // Then you can selectively disable BLE-related features.
+        if (!getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_BLUETOOTH_LE)) {
+            String msg = getString(R.string.ble_not_supported);
+            Utils.warnMsg(this, msg);
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+            mBleSupported = false;
+            return;
+        } else {
+            mBleSupported = true;
+        }
+
+        // Ask for needed permissions
+        requestPermissions();
     }
 
     @Override
@@ -102,6 +120,67 @@ public class MainActivity extends AppCompatActivity implements IConstants {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[]
+            permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, this.getClass().getSimpleName()
+                + "onRequestPermissionsResult");
+        super.onRequestPermissionsResult(requestCode, permissions,
+                grantResults);
+        if (requestCode == REQ_ACCESS_PERMISSIONS) {// All (Handle multiple)
+            for (int i = 0; i < permissions.length; i++) {
+                if (permissions[i].equals(Manifest.
+                        permission.ACCESS_COARSE_LOCATION)) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG, "REQ_ACCESS_PERMISSIONS: COARSE_LOCATION " +
+                                "granted");
+                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        Log.d(TAG, "REQ_ACCESS_PERMISSIONS: COARSE_LOCATION " +
+                                "denied");
+                    }
+                } else if (permissions[i].equals(Manifest.
+                        permission.ACCESS_FINE_LOCATION)) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG, "REQ_ACCESS_PERMISSIONS: FINE_LOCATION " +
+                                "granted");
+                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        Log.d(TAG, "REQ_ACCESS_PERMISSIONS: FINE_LOCATION " +
+                                "denied");
+                    }
+                } else if (permissions[i].equals(Manifest.
+                        permission.BLUETOOTH_SCAN)) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG, "REQ_ACCESS_PERMISSIONS: BLUETOOTH_SCAN " +
+                                "granted");
+                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        Log.d(TAG, "REQ_ACCESS_PERMISSIONS: BLUETOOTH_SCAN " +
+                                "denied");
+                    }
+                } else if (permissions[i].equals(Manifest.
+                        permission.BLUETOOTH_CONNECT)) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG, "REQ_ACCESS_PERMISSIONS: BLUETOOTH_CONNECT" +
+                                " " +
+                                "granted");
+                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        Log.d(TAG, "REQ_ACCESS_PERMISSIONS: BLUETOOTH_CONNECT" +
+                                " " +
+                                "denied");
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // This seems to be necessary with Android 12
+        // Otherwise onDestroy is not called
+        Log.d(TAG, this.getClass().getSimpleName() + ": onBackPressed");
+        finish();
+        super.onBackPressed();
+    }
+
     /**
      * Utility routine to show Toast. Uses Toast.LENGTH_LONG.
      *
@@ -113,33 +192,34 @@ public class MainActivity extends AppCompatActivity implements IConstants {
     }
 
     public void connect(View view) {
-        checkBT();
         mDeviceId1 = mSharedPreferences.getString(PREF_DEVICE_ID_1, "");
         mDeviceId2 = mSharedPreferences.getString(PREF_DEVICE_ID_2, "");
         Log.d(TAG,
                 "mDeviceId1=" + mDeviceId1 + " mDeviceId2=" + mDeviceId2);
-        if (mDeviceId1.equals("")) {
-            showDeviceIdDialog(view, 1);
-        }
+        // Do in reverse order as last will be on top
         if (mDeviceId2.equals("")) {
             showDeviceIdDialog(view, 2);
         }
-        Toast.makeText(this,
-                getString(R.string.connecting) + " " + mDeviceId1 + "\n"
-                        + getString(R.string.connecting) + " " + mDeviceId2,
-                Toast.LENGTH_SHORT).show();
+        if (mDeviceId1.equals("")) {
+            showDeviceIdDialog(view, 1);
+        }
+
+        // Don't use SDK if BT is not enabled or permissions are not granted.
+        if (!mBleSupported) return;
+        if (!isAllPermissionsGranted(this)) {
+            if (!mAllPermissionsAsked) {
+                mAllPermissionsAsked = true;
+                Utils.warnMsg(this, getString(R.string.permission_not_granted));
+            }
+            return;
+        }
+
+        showToast(getString(R.string.connecting) + " " + mDeviceId1 + "\n"
+                + getString(R.string.connecting) + " " + mDeviceId2);
         Intent intent = new Intent(this, HRActivity.class);
         intent.putExtra("id1", mDeviceId1);
         intent.putExtra("id2", mDeviceId2);
         startActivity(intent);
-    }
-
-    public void onClickChangeID1(View view) {
-        selectDeviceId(1);
-    }
-
-    public void onClickChangeID2(View view) {
-        selectDeviceId(2);
     }
 
     public void selectDeviceId(int whichPlot) {
@@ -181,17 +261,17 @@ public class MainActivity extends AppCompatActivity implements IConstants {
             }
         }
         dialog[0].setSingleChoiceItems(items, checkedItem,
-                (dialog12, which) -> {
+                (dialogInterface, which) -> {
                     if (which < mMruDevices.size()) {
                         DeviceInfo deviceInfo1 = mMruDevices.get(which);
                         setDeviceMruPref(deviceInfo1, whichPlot);
                     } else {
                         showDeviceIdDialog(null, whichPlot);
                     }
-                    dialog12.dismiss();
+                    dialogInterface.dismiss();
                 });
         dialog[0].setNegativeButton(R.string.cancel,
-                (dialog1, which) -> dialog1.dismiss());
+                (dialogInterface, which) -> dialogInterface.dismiss());
         AlertDialog alert = dialog[0].create();
         alert.setCanceledOnTouchOutside(false);
         alert.show();
@@ -218,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements IConstants {
         }
         dialog.setView(viewInflated);
 
-        dialog.setPositiveButton("OK", (dialog1, which) -> {
+        dialog.setPositiveButton("OK", (dialogInterface, which) -> {
             if (whichPlot == 1) {
                 mDeviceId1 = input.getText().toString();
                 SharedPreferences.Editor editor = mSharedPreferences.edit();
@@ -235,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements IConstants {
                     + " mDeviceId2=" + mDeviceId2);
         });
         dialog.setNegativeButton("Cancel",
-                (dialog12, which) -> dialog12.cancel());
+                (dialogInterface, which) -> dialogInterface.cancel());
         dialog.show();
     }
 
@@ -243,25 +323,31 @@ public class MainActivity extends AppCompatActivity implements IConstants {
         Log.d(TAG, "setDevicesText: mDeviceId1=: "
                 + mDeviceId1 + " mDeviceId2=" + mDeviceId2);
         String name1 = "Unknown";
-        if (mDeviceId1 != null) {
+        if (mDeviceId1 == null) {
             for (DeviceInfo deviceInfo : mMruDevices) {
                 if (deviceInfo.id.equals(mDeviceId1)) {
                     name1 = deviceInfo.name;
                     break;
                 }
             }
+        } else {
+            name1 = mDeviceId1;
         }
         String name2 = "Unknown";
-        if (mDeviceId2 != null) {
+        if (mDeviceId2 == null) {
             for (DeviceInfo deviceInfo : mMruDevices) {
                 if (deviceInfo.id.equals(mDeviceId2)) {
                     name2 = deviceInfo.name;
                     break;
                 }
             }
+        } else {
+            name2 = mDeviceId2;
         }
-        mTextViewDevices.setText(getString(R.string.devices_string, name1,
-                name2));
+        String msg = getString(R.string.devices_string, name1,
+                name2);
+        Log.d(TAG, "Setting mTextViewDevices to: " + msg);
+        mTextViewDevices.setText(msg);
     }
 
     public void setDeviceMruPref(DeviceInfo deviceInfo, int which) {
@@ -302,8 +388,34 @@ public class MainActivity extends AppCompatActivity implements IConstants {
                 + mDeviceId1 + " mDeviceId2=" + mDeviceId2);
     }
 
-    public void checkBT() {
-        Log.d(TAG, "checkBT");
+    /**
+     * Determines if either COARSE or FINE location permission is granted.
+     *
+     * @return If granted.
+     */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean isAllPermissionsGranted(Context ctx) {
+        boolean granted;
+        if (Build.VERSION.SDK_INT >= 31) {
+            // Android 12 (S)
+            granted = ctx.checkSelfPermission(
+                    Manifest.permission.BLUETOOTH_CONNECT) ==
+                    PackageManager.PERMISSION_GRANTED |
+                    ctx.checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) ==
+                            PackageManager.PERMISSION_GRANTED;
+        } else {
+            // Android 6 (M)
+            granted = ctx.checkSelfPermission(
+                    Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED |
+                    ctx.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+                            PackageManager.PERMISSION_GRANTED;
+        }
+        return granted;
+    }
+
+    public void requestPermissions() {
+        Log.d(TAG, "requestPermissions");
         BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         if (bluetoothManager != null) {
@@ -315,12 +427,17 @@ public class MainActivity extends AppCompatActivity implements IConstants {
             }
         }
 
-        //requestPermissions() method needs to be called when the build SDK
-        // version is 23 or above
-        if (Build.VERSION.SDK_INT >= 23) {
-            this.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+        if (Build.VERSION.SDK_INT >= 31) {
+            // Android 12 (S)
+            this.requestPermissions(new String[]{
+                            Manifest.permission.BLUETOOTH_SCAN,
+                            Manifest.permission.BLUETOOTH_CONNECT},
+                    REQ_ACCESS_PERMISSIONS);
+        } else {
+            // Android 6 (M)
+            this.requestPermissions(new String[]{
                             Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQ_ACCESS_LOCATION);
+                    REQ_ACCESS_PERMISSIONS);
         }
     }
 

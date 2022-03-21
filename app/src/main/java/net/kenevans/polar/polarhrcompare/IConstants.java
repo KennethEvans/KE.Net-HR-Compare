@@ -7,5 +7,5 @@ public interface IConstants {
     String PREF_DEVICE_ID_1 = "polar_device_id_1";
     String PREF_DEVICE_ID_2 = "polar_device_id_2";
 
-    int REQ_ACCESS_LOCATION = 1;
+    int REQ_ACCESS_PERMISSIONS = 1;
 }
