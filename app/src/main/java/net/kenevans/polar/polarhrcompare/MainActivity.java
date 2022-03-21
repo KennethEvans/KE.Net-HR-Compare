@@ -61,6 +61,14 @@ public class MainActivity extends AppCompatActivity implements IConstants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Capture global exceptions
+        Thread.setDefaultUncaughtExceptionHandler((paramThread,
+                                                   paramThrowable) -> {
+            Log.e(TAG, "Unexpected exception :", paramThrowable);
+            // Any non-zero exit code
+            System.exit(2);
+        });
+
         setContentView(R.layout.activity_main);
         mTextViewDevices = findViewById(R.id.devices);
         mButtonId1 = findViewById(R.id.buttonSetID1);

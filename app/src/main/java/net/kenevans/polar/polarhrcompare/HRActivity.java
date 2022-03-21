@@ -58,6 +58,14 @@ public class HRActivity extends AppCompatActivity implements PlotterListener,
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Capture global exceptions
+        Thread.setDefaultUncaughtExceptionHandler((paramThread,
+                                                   paramThrowable) -> {
+            Log.e(TAG, "Unexpected exception :", paramThrowable);
+            // Any non-zero exit code
+            System.exit(2);
+        });
+
         setContentView(R.layout.activity_hr);
         mSharedPreferences = getSharedPreferences("MainActivity", MODE_PRIVATE);
         mDeviceId1 = getIntent().getStringExtra("id1");
